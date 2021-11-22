@@ -1,25 +1,48 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react'
+import {Routes, Route} from 'react-router-dom'
+import Home from './views/Home'
+import Page2 from './views/Page2'
+import Example from './views/Example'
+import Login from './views/Login'
+import Logout from './views/Logout'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import ProtectedRoute from './components/ProtectedRoute'
+import NavBar from './components/NavBar'
+
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+
+export default class App extends Component {
+  constructor(){
+    super();
+    this.state={
+      test:"This is a test",
+      user:'',
+      token:'',
+      
+    }
+  }
+
+
+
+
+  render() {
+    return (
+      <div>
+          <NavBar/>
+        <Routes>
+          <Route path = '/' element={<Home />}/>
+          <Route path = '/page2' element={<Page2 />}/>
+          <Route path = '/example' element={<Example />}/>
+          <Route path = '/logout' element={<Logout setToken={this.setToken} />}/>
+
+          <Route path = '/login' element={<Login setToken={this.setToken}/> }/>
+          {/* <Route path = '/login' element={<Login setToken={this.setToken}/>}/> */}
+        </Routes>
+      </div>
+    )
+  }
 }
 
-export default App;
+
+
