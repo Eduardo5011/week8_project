@@ -6,18 +6,23 @@ import {Link} from 'react-router-dom'
 export default class NavBar extends Component {
     render() {
         return (
-          
+                
                 <Navbar bg="dark" variant="dark" expand="lg" style={{marginBottom:"20px"}}>
                     <Container>
                         <Navbar.Brand as={Link} to="/">FakeShop</Navbar.Brand>
                         <Navbar.Toggle aria-controls="basic-navbar-nav" />
                         <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="me-auto">
+                            {this.props.token ?
+                            <>
                             <Nav.Link as={Link} to="/">Home</Nav.Link>
                             <Nav.Link as={Link} to="/page2">page2</Nav.Link>
                             <Nav.Link as={Link} to="/example">Example</Nav.Link>
                             <Nav.Link as={Link} to="/Login">Login</Nav.Link>
-                            
+                            </>
+                            :
+                            <Nav.Link as={Link} to="/Logout">Logout</Nav.Link>
+                            }
                         </Nav>
                         </Navbar.Collapse>
                     </Container>

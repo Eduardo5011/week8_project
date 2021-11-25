@@ -26,6 +26,30 @@ export default class Login extends Component {
             redirect:false
         };
     };
+
+
+
+     handleSubmit = ({username, password}) => {
+        
+        fetch('https://fakestoreapi.com/auth/login',{
+            method:'POST',
+            body:JSON.stringify({
+                username: username,
+                password: password
+            })
+        })
+            .then(res=>{
+                this.props.setToken(res.data.token);
+                this.props.setName(username)
+            })
+            .then(json=>console.log(json))
+            .then(res=>{
+                if(res.data.token){
+                    this.setState({redirect:true})
+                }
+                return res
+            })
+    }
     
     // handleSubmit = async ({email, password})=>{
     //     const response_object = await getToken(email,password);
@@ -45,11 +69,11 @@ export default class Login extends Component {
 
         return (
             <div>
-                {this.state.redirect ? <Navigate to={{pathname:"/", props:{token:localStorage.getItem('token')}}}/> :''}
+                {this.state.redirect ? <Navigate to={{pathname:"/", props:{token:this.props.token}}}/> :''}
             <Formik
                 initialValues={initialValues}
                 validationSchema={FormSchema}
-                onSubmit={(values)=>{console.log(values);}}
+                onSubmit={(values)=>{this.handleSubmit(values);}}
                 // onSubmit={(values)=>{console.log(values);this.handleSubmit(values)}}
             >
                 {
