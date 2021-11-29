@@ -32,7 +32,7 @@ export default class Shop extends Component {
         await fetch('https://fakestoreapi.com/products/categories')
             .then(res=>{
                 this.setState({categories:res.data})
-            });
+            })
             // .then(json=>console.log(json))
   
     }
@@ -47,21 +47,21 @@ export default class Shop extends Component {
             // .then(json=>console.log(json))
     }
 
-    // getCatItems=async()=>{
-    //     await fetch('https://fakestoreapi.com/products/category/jewelery')
-    //         .then(res=>{
-    //             this.setState({items:res.data})
-    //         })
-    //         .then(json=>console.log(json))
+    getCatItems=async()=>{
+        await fetch('https://fakestoreapi.com/products/category/jewelery')
+            .then(res=>{
+                this.setState({items:res.data})
+            })
+            .then(json=>console.log(json))
 
 
-    // }
+    }
 
     handleCat = async (id) =>{
-        if (id===-1){
+        if (id===0){
             return await this.getAllItems()
         }
-        return await this.getCatItems(id)
+        return await this.getAllCats(id)
         
     }
 
