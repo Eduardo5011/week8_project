@@ -16,12 +16,14 @@ export default class NavBar extends Component {
                             {this.props.token ?
                             <>
                             <Nav.Link as={Link} to="/">Home</Nav.Link>
-                            <Nav.Link as={Link} to="/page2">page2</Nav.Link>
+                            <Nav.Link as={Link} to="/shop">shop</Nav.Link>
+                            {/* <Nav.Link as={Link} to="/page2">page2</Nav.Link> */}
                             <Nav.Link as={Link} to="/example">Example</Nav.Link>
-                            <Nav.Link as={Link} to="/Login">Login</Nav.Link>
+                            <Nav.Link as={Link} to="/Logout">Logout</Nav.Link>
+                            
                             </>
                             :
-                            <Nav.Link as={Link} to="/Logout">Logout</Nav.Link>
+                            <Nav.Link as={Link} to="/Login">Login</Nav.Link>
                             }
                         </Nav>
                         </Navbar.Collapse>

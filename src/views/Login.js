@@ -7,7 +7,7 @@ import { Navigate } from 'react-router';
 // import axios from 'axios';
 
 const FormSchema = Yup.object().shape({
-    "username":Yup.string("Must be a valid e-mail format").required('Required'),
+    "username":Yup.string().required('Required'),
     
     "password": Yup.string().required('Required')
 })
@@ -15,13 +15,16 @@ const FormSchema = Yup.object().shape({
 const initialValues={
     username:'',
     password:''
+    
 }
+
+
 
 export default class Login extends Component {
     constructor(){
         super();
         this.state={
-            token:'',
+            // token:'',
             error:'',
             redirect:false
         };
@@ -29,35 +32,40 @@ export default class Login extends Component {
 
 
 
-     handleSubmit = ({username, password}) => {
+    handleSubmit = ({username, password}) => {
+        console.log('clicked');
+        this.props.setToken(); 
         
         fetch('https://fakestoreapi.com/auth/login',{
             method:'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
             body:JSON.stringify({
                 username: username,
                 password: password
+                
             })
         })
-            .then(res=>{
+        .then(res=>res.json())
+        .then(res=>{
+                 console.log(res.data)
                 this.props.setToken(res.data.token);
-                this.props.setName(username)
-            })
-            .then(json=>console.log(json))
-            .then(res=>{
-                if(res.data.token){
-                    this.setState({redirect:true})
-                }
+                this.props.setName(username, password);
                 return res
             })
+            // .then(json=>console.log(json))
+        .then(res=>{
+                if (res.data.token){
+                    this.setState({redirect:true})
+                    return res
+                }
+               
+            })
+            .catch((e)=>console.error(e))
+            console.log()
     }
     
-    // handleSubmit = async ({email, password})=>{
-    //     const response_object = await getToken(email,password);
-    //     this.setState({error:response_object.error})
-    //     this.props.setToken(response_object.token)
-    //     this.setState({redirect:true})
-    //     console.log(response_object.token)
-    // };
 
    
 
@@ -73,8 +81,8 @@ export default class Login extends Component {
             <Formik
                 initialValues={initialValues}
                 validationSchema={FormSchema}
-                onSubmit={(values)=>{this.handleSubmit(values);}}
-                // onSubmit={(values)=>{console.log(values);this.handleSubmit(values)}}
+                // onSubmit={(values)=>{this.handleSubmit(values);}}
+                onSubmit={(values)=>{console.log(values);this.handleSubmit(values)}}
             >
                 {
                     ({errors, touched})=>(
@@ -96,6 +104,6 @@ export default class Login extends Component {
             </Formik>
 
             </div>
-        )
+        );
     };
 }
