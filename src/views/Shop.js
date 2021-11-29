@@ -22,33 +22,53 @@ export default class Shop extends Component {
 
     componentDidMount() {
         
-        this.getAllCats()
-        this.getAllItems()
+        this.getAllCats();
+        this.getAllItems();
     }
 
-    getAllCats = () =>{
-        fetch('https://fakestoreapi.com/products/categories')
-            .then(res=>res.json())
-            .then(json=>console.log(json))
+
+
+    getAllCats = async () =>{
+        await fetch('https://fakestoreapi.com/products/categories')
+            .then(res=>{
+                this.setState({categories:res.data})
+            });
+            // .then(json=>console.log(json))
   
     }
 
 
-    getAllItems=async () =>{
-        fetch('https://fakestoreapi.com/products')
-            .then(res=>res.json())
-            .then(json=>console.log(json))
-            
-    
+    getAllItems= async () =>{
+        await fetch('https://fakestoreapi.com/products')
+            .then(res=>{
+                this.setState({items:res.data})
+                
+            });
+            // .then(json=>console.log(json))
     }
 
+    // getCatItems=async()=>{
+    //     await fetch('https://fakestoreapi.com/products/category/jewelery')
+    //         .then(res=>{
+    //             this.setState({items:res.data})
+    //         })
+    //         .then(json=>console.log(json))
+
+
+    // }
+
     handleCat = async (id) =>{
-        if (id===0){
+        if (id===-1){
             return await this.getAllItems()
         }
-        return await this.getCatsItems(id)
+        return await this.getCatItems(id)
         
     }
+
+    
+
+
+
 
     handlePrev=()=>{
         const oldStart=this.state.itemStart
