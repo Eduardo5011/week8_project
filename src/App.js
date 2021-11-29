@@ -30,7 +30,8 @@ export default class App extends Component {
       token:'',
       name:'',
       // isAdmin:false,
-      setName:''
+      setName:'',
+      username:''
       
 
     }
@@ -54,19 +55,22 @@ export default class App extends Component {
   }
 
 
-  setName =() =>{
-    let name = '';
+  setName =(username) =>{
+    
     fetch('https://fakestoreapi.com/users')
-            .then(res=>{
-              for(let user of res.data.token){
-                name = user.name
-              
-            .then(json=>console.log(json));
-            localStorage.setItem('name',name);
-            break;
-  }
-})
-}
+      .then(res=>{
+          return res.json()
+      })
+      .then(res=>{
+        for(let user of res){
+         
+         if (username === user.username){
+           this.setState({username})
+           
+         }
+        }
+      })
+    }
 
 // static getDerivedStateFromProps = (props,state)=>{
 //   return {"token":localStorage.getItem('token')}
@@ -93,7 +97,10 @@ export default class App extends Component {
   render() {
     return (
       <div>
-        <NavBar token={this.state.token}/>
+        <NavBar 
+        token={this.state.token}
+        username={this.state.username}
+        />
         <Routes>
 
         

@@ -20,17 +20,27 @@ export default class Shop extends Component {
         };
     };
 
-    // componentDidMount() {
-    //     //do API calls to get all Cats and Get All items
-    //     this.getAllCats()
-    // }
+    componentDidMount() {
+        
+        this.getAllCats()
+        this.getAllItems()
+    }
 
-    // getAllCats = async () =>{
-    //     const cats = await getCategories(localStorage.getItem('token'))
-    //     if(cats===400){this.setState({tokenError:true})}
-    //     if(cats===500){this.setState({serverErrorCats:true})}
-    //     if (cats !==500 && cats !==400){this.setState({categories:cats})}
-    // }
+    getAllCats = () =>{
+        fetch('https://fakestoreapi.com/products/categories')
+            .then(res=>res.json())
+            .then(json=>console.log(json))
+  
+    }
+
+
+    getAllItems=async () =>{
+        fetch('https://fakestoreapi.com/products')
+            .then(res=>res.json())
+            .then(json=>console.log(json))
+            
+    
+    }
 
     handleCat = async (id) =>{
         if (id===0){
@@ -39,20 +49,6 @@ export default class Shop extends Component {
         return await this.getCatsItems(id)
         
     }
-
-    // getCatsItems=async(id)=>{
-    //     const items = await getItemsByCat(localStorage.getItem('token'),id)
-    //     if(items===400){this.setState({tokenError:true})}
-    //     if(items===500){this.setState({serverErrorItems:true})}
-    //     if (items !==500 && items !==400){this.setState({items, itemStart:0, itemEnd:10})}
-    // }
-
-    // getAllItems=async () =>{
-    //     const items = await getItems(localStorage.getItem('token'))
-    //     if(items===400){this.setState({tokenError:true})}
-    //     if(items===500){this.setState({serverErrorItems:true})}
-    //     if (items !==500 && items !==400){this.setState({items, itemStart:0, itemEnd:10})}
-    // }
 
     handlePrev=()=>{
         const oldStart=this.state.itemStart

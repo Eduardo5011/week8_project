@@ -20,6 +20,7 @@ export default class NavBar extends Component {
                             {/* <Nav.Link as={Link} to="/page2">page2</Nav.Link> */}
                             <Nav.Link as={Link} to="/example">Example</Nav.Link>
                             <Nav.Link as={Link} to="/Logout">Logout</Nav.Link>
+                            <Nav.Link> {this.props.username} </Nav.Link>
                             
                             </>
                             :

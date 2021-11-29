@@ -49,21 +49,17 @@ export default class Login extends Component {
         })
         .then(res=>res.json())
         .then(res=>{
-                 console.log(res.data)
-                this.props.setToken(res.data.token);
-                this.props.setName(username, password);
-                return res
-            })
-            // .then(json=>console.log(json))
+            
+            this.props.setToken(res.token)
+            return res
+        })
         .then(res=>{
-                if (res.data.token){
-                    this.setState({redirect:true})
-                    return res
-                }
-               
-            })
-            .catch((e)=>console.error(e))
-            console.log()
+            this.props.setName(username)
+
+            
+
+        })
+
     }
     
 
