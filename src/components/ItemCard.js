@@ -1,11 +1,9 @@
 import React, { Component } from 'react'
-// import { Card } from 'react-bootstrap';
-import {Card, Col, Button} from 'react-bootstrap'
-import {titleCase} from '../helpers'
-import {Navigate} from 'react-router-dom'
+import { Card, Col, Button } from 'react-bootstrap';
 
 export default class ItemCard extends Component {
-    constructor(){
+
+    constructor() {
         super();
         this.state={
             clicked:false
@@ -16,28 +14,25 @@ export default class ItemCard extends Component {
         this.setState({clicked:true})
     }
 
-
-
     render() {
         return (
             <Col>
             {/* come back for single item */}
-                {this.state.clicked ? <Navigate to={`/item/${this.props.item.id}`}/>:''}
-                <Card style={{ width: '150px', height:"400px", marginBottom:"25px" }}>
-                <Card.Img variant="top" style={{height:"100px", objectFit:"container"}} alt={this.props.item.name+"image"}
-                src={this.props.item.img ?? 'https://res.cloudinary.com/cae67/image/upload/v1629310111/fakebook_shop/no-image_nkau78.png'} />
+                <Card style={{ width: '150px', marginBottom:"25px" }}>
+                <Card.Img variant="top" style={{maxHeight:"100px", width:"130px", objectFit:"contain", marginTop:"10px", marginLeft:"10px"}} alt={this.props.item.name+" image"}
+                    src={this.props.item.image ?? 'https://res.cloudinary.com/cae67/image/upload/v1629310111/fakebook_shop/no-image_nkau78.png' } />
                 <Card.Body>
-                    <Card.Title>{titleCase(this.props.tem.name) ?? "Generic item"}</Card.Title>
+                    <Card.Title>{this.props.item.title ?? "Generic Item"}</Card.Title>
                     <Card.Text>
-                    {this.props.item.description ?? "sorry no description"}
+                    {this.props.item.description ?? "Sorry No Description"}
                     </Card.Text>
                     <Card.Subtitle className="float-end">${this.props.item.price ?? '?.??'} </Card.Subtitle>
                     <br/>
-                    <button stle={{backgroundColor:"white", border:"name", coloe:"blue"}} onClick={()=>this.handleRenderItem()}>See more</button>
-                    <Button variant="primary">Add to Cart</Button>
+                    <button style={{backgroundColor:"white", border:'none', color:'blue'}} onClick={()=>this.handleRenderItem()}>See More</button>
+                    <Button variant="primary">Add To Cart</Button>
                 </Card.Body>
                 </Card>
-            </Col>    
+            </Col>
         )
     }
 }

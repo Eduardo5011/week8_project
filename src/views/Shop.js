@@ -1,99 +1,108 @@
-import React, { Component } from 'react'
-import {Col, Row, Button} from 'react-bootstrap'
-// import {getItems, getItemsByCat} from '../api/apiItems'
-// import {getCategories} from '../api/apiCategory'
+import React, { Component } from 'react';
+import {Col, Row} from 'react-bootstrap'
 import ItemCard from '../components/ItemCard'
-import {titleCase} from '../helpers'
+import axios from 'axios';
 
 
-export default class Shop extends Component {
+
+
+
+class Home extends Component {
     constructor() {
         super();
         this.state={
             categories:[],
             items:[],
-            // serverErrorCats:false,
-            // serverErrorItems:false,
-            // tokenError:false,
             itemStart: 0,
-            itemEnd:10
+            itemEnd:15
         };
     };
 
     componentDidMount() {
-        
         this.getAllCats();
         this.getAllItems();
     }
 
-
-
     getAllCats = async () =>{
-        await fetch('https://fakestoreapi.com/products/categories')
-            .then(res=>{
-                this.setState({categories:res.data})
-            })
-            // .then(json=>console.log(json))
-  
+        await axios.get('https://fakestoreapi.com/products/categories')
+        .then(response=>{
+            this.setState({categories:response.data})
+        });
     }
 
-
-    getAllItems= async () =>{
-        await fetch('https://fakestoreapi.com/products')
-            .then(res=>{
-                this.setState({items:res.data})
-                
-            });
-            // .then(json=>console.log(json))
+    getAllItems = async () =>{
+        await axios.get('https://fakestoreapi.com/products')
+        .then(response=>{
+            this.setState({items:response.data})
+        });
     }
 
-    getCatItems=async()=>{
-        await fetch('https://fakestoreapi.com/products/category/jewelery')
-            .then(res=>{
-                this.setState({items:res.data})
-            })
-            .then(json=>console.log(json))
-
-
+    resetItemCounts = () =>{
+        this.setState({itemStart:0, itemEnd:15});
     }
 
     handleCat = async (id) =>{
-        if (id===0){
-            return await this.getAllItems()
+        this.resetItemCounts()
+        if (id===-1){
+            return await this.getAllItems();
         }
-        return await this.getAllCats(id)
+        return await this.getCatsItems(id);
         
     }
 
-    
-
-
-
+    getCatsItems=async(id)=>{
+        let cat = this.state.categories[id];
+        await axios.get(`https://fakestoreapi.com/products/category/${cat}`)
+        .then(response=>{
+            this.setState({items:response.data})
+        });
+    }
 
     handlePrev=()=>{
-        const oldStart=this.state.itemStart
-        const oldEnd=this.state.itemEnd
-        this.setState({itemStart:oldStart-10, itemEnd:oldEnd-10})
+        const oldStart=this.state.itemStart;
+        const oldEnd=this.state.itemEnd;
+        this.setState({itemStart:oldStart-15, itemEnd:oldEnd-15});
     }
 
     handleNext=()=>{
-        const oldStart=this.state.itemStart
-        const oldEnd=this.state.itemEnd
-        this.setState({itemStart:oldStart+10, itemEnd:oldEnd+10})
+        const oldStart=this.state.itemStart;
+        const oldEnd=this.state.itemEnd;
+        this.setState({itemStart:oldStart+15, itemEnd:oldEnd+15});
     }
 
+    // goToEditItem = (item) => {
+    //     this.setState({itemToEdit:item}, ()=>(
+    //     localStorage.setItem('itemToEdit', JSON.stringify(item))
+    //     ))
+    //     this.setState({redirect:true});
+    // }
+
+    // deleteItem = (id) => {
+    //     axios.delete(`https://fakestoreapi.com/products/${id}`)
+    //     .then(res=>res.data)
+    //     .then(json=>console.log(json))
+    //     .then(()=>console.log(`Item number ${id} deleted.`))
+    // }
 
 
     render() {
         const styles = {
             catButton:{
-                backgroundColor: "white",
+                backgroundColor: "purple",
                 color:"black",
                 width: '100%',
                 border: '1px solid grey',
                 borderRadius: '15px',
                 marginBottom:'5px'
-            }
+            
+            },
+            pageStyles:{
+                backgroundColor: "purple",
+                padding:"20px",
+                minHeight:"94vh"
+            },
+        
+            
         }
 
         return (
@@ -106,11 +115,11 @@ export default class Shop extends Component {
                         <ul style={{listStyleType:'none'}}>
                             {/* Come back to here */}
                             <li>
-                                <button style={styles.catButton} onClick={()=>this.handleCat(0)}>All Items</button>
+                                <button style={styles.catButton} onClick={()=>this.handleCat(-1)}>All Items</button>
                             </li>
                             {this.state.categories.map(
-                                (c)=><li key={c.id}>
-                                    <button style={styles.catButton} onClick={()=>this.handleCat(c.id)}>{titleCase.name(c.name)}</button>
+                                (c)=><li key={this.state.categories.indexOf(c)}>
+                                    <button style={styles.catButton} onClick={()=>this.handleCat(this.state.categories.indexOf(c))}>{c}</button>
                                 </li>
                             )}
 
@@ -120,16 +129,20 @@ export default class Shop extends Component {
                         {/* item section */}
                         <Row>
                             {this.state.items.slice(this.state.itemStart,this.state.itemEnd)
-                                .map((i)=><ItemCard item={i} key={i.id}/>)}
+                                .map((i)=><ItemCard item={i} key={i.id} addToUserCart={this.props.addToUserCart}/>)}
                         </Row>
                         <div className="d-flex justify-content-center">
-                            <Button variant="danger" className={"me-2 " + (this.state.itemStart===0?"disabled":'')} onClick={()=>this.handlePrev()}>{"<< Prev"}</Button>
-                            <Button variant="success" className={" " + (this.state.items?.length<=this.state.itemEnd?"disabled":'')} onClick={()=>this.handleNext()}>{"Next >>"}</Button>
+                            {/* <Button variant="danger" className={(this.state.itemStart===0?"disabled":'')} onClick={()=>this.handlePrev()}>{"<< Prev"}</Button>
+                            <Button variant="success" className={(this.state.items?.length<=this.state.itemEnd?"disabled":'')} onClick={()=>this.handleNext()}>{"Next >>"}</Button> */}
                         </div>
                     </Col>
 
                 </Row>
+
+                
             </div>
-        )
+        );
     }
 }
+
+export default Home;
