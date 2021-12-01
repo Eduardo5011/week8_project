@@ -4,7 +4,7 @@ export default class Home extends Component {
     render() {
         return (
             <div>
-                Hello
+                Oh hi there, welcome to el paraiso Fakeshop... <a href="/shop">click here</a>
             </div>
         )
     }
