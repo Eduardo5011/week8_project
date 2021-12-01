@@ -19,10 +19,6 @@ class Cart extends Component {
                
             },
 
-            cartItemList:{
-                listStyleType:"none",
-                color: "azure"
-            },
             itemImg:{
                 maxHeight:"100px", 
                 width:"130px", 
@@ -41,8 +37,8 @@ class Cart extends Component {
                 <center><h1>Cart</h1></center>
                 {this.props.cart?.length>0 ?
                 <>
-                <p style={styles.cartTotal}>Cart Total: <b>${this.props.cartTotal}</b></p>
-                <ul style={styles.cartItemList}>
+                <p>Cart Total: <b>${this.props.cartTotal}</b></p>
+                <ul >
                     {this.props.cart.map(item=>(
                         <li key={this.props.cart.indexOf(item)}>
                             {this.props.cart.indexOf(item)+1}. <b>{item.title.substring(0,40)}</b> <div style={{float:"right"}}><b>${item.price}</b></div>

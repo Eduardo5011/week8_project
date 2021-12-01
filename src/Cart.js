@@ -52,8 +52,8 @@ class Cart extends Component {
                     {this.props.cart.map(item=>(
                         <li key={this.props.cart.indexOf(item)}>
                             {this.props.cart.indexOf(item)+1}. <b>{item.title.substring(0,40)}</b> <div style={{float:"right"}}><b>${item.price}</b></div>
-                            <br/> &nbsp;&nbsp;&nbsp;<img src={item.image} style={styles.itemImg} alt={item.title.substring(0,20)+"... image"}/>
-                            <br/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{item.category}
+                            <br/><img src={item.image} style={styles.itemImg} alt={item.title.substring(0,20)}/>
+                            <br/> {item.category}
                             <br/>
                         </li>
                     ))}

@@ -141,14 +141,14 @@ addToUserCart = (item) =>{
             </ProtectedRoute>
             }/>
 
-<Route path='/item/:id' element={
-            <ProtectedRoute token={this.state.token}>
+            <Route path='/item/:id' element={
+            <ProtectedRoute token={this.state.token} addToUserCart={this.addToUserCart}>
               <SingleItem />
             </ProtectedRoute>
             }/>
 
             <Route path='/createcats' element={
-            <ProtectedRoute idAdmin = {this.state.isAdmin} token={this.state.token}>
+            <ProtectedRoute isAdmin = {this.state.isAdmin} token={this.state.token}>
               <CreateCats/>
             </ProtectedRoute>
             }/>

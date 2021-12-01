@@ -67,9 +67,7 @@ class EditCats extends Component {
                         }
                     }
                     validationSchema={formSchema}
-                    onSubmit={
-                        (values)=>{this.handleSubmit(values, item?.id);}
-                    }>
+                    onSubmit={(values)=>{this.handleSubmit(values, item?.id);}}>
                     {
                         ({errors, touched})=>(
                             <Form>

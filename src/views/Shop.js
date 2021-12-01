@@ -16,6 +16,7 @@ class Home extends Component {
             items:[],
             itemStart: 0,
             itemEnd:15
+            
         };
     };
 

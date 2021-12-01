@@ -36,7 +36,7 @@ export default class ItemCard extends Component {
                     <a href="/cart"><Button   variant="primary" >Add To Cart</Button></a>
                     
 
-                    <Button  style={{margin:"5px 0px"}} variant="warning" onClick={()=>this.props.goToEditItem(this.props.item)} >Edit Item</Button>
+                    <Button  style={{margin:"5px 0px"}} variant="success" onClick={()=>this.props.goToEditItem(this.props.item)} >Edit Item</Button>
                     <Button  style={{margin:"5px 0px"}} variant="danger" onClick={()=>this.props.deleteItem(this.props.item.id)} >Delete Item</Button>
                 </Card.Body>
                 </Card>
