@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {Col, Row} from 'react-bootstrap'
 import ItemCard from '../components/ItemCard'
 import axios from 'axios';
+import {titleCase} from '../helpers'
 
 
 
@@ -70,25 +71,25 @@ class Home extends Component {
         this.setState({itemStart:oldStart+15, itemEnd:oldEnd+15});
     }
 
-    // goToEditItem = (item) => {
-    //     this.setState({itemToEdit:item}, ()=>(
-    //     localStorage.setItem('itemToEdit', JSON.stringify(item))
-    //     ))
-    //     this.setState({redirect:true});
-    // }
+    goToEditItem = (item) => {
+        this.setState({itemToEdit:item}, ()=>(
+        localStorage.setItem('itemToEdit', JSON.stringify(item))
+        ))
+        this.setState({redirect:true});
+    }
 
-    // deleteItem = (id) => {
-    //     axios.delete(`https://fakestoreapi.com/products/${id}`)
-    //     .then(res=>res.data)
-    //     .then(json=>console.log(json))
-    //     .then(()=>console.log(`Item number ${id} deleted.`))
-    // }
+    deleteItem = (id) => {
+        axios.delete(`https://fakestoreapi.com/products/${id}`)
+        .then(res=>res.data)
+        .then(json=>console.log(json))
+        .then(()=>console.log(`Item number ${id} deleted.`))
+    }
 
 
     render() {
         const styles = {
             catButton:{
-                backgroundColor: "purple",
+                backgroundColor: "",
                 color:"black",
                 width: '100%',
                 border: '1px solid grey',
@@ -101,6 +102,7 @@ class Home extends Component {
                 padding:"20px",
                 minHeight:"94vh"
             },
+            
         
             
         }
@@ -119,9 +121,14 @@ class Home extends Component {
                             </li>
                             {this.state.categories.map(
                                 (c)=><li key={this.state.categories.indexOf(c)}>
-                                    <button style={styles.catButton} onClick={()=>this.handleCat(this.state.categories.indexOf(c))}>{c}</button>
+                                    <button style={styles.catButton} onClick={()=>this.handleCat(this.state.categories.indexOf(c))}>{titleCase(c)}</button>
                                 </li>
                             )}
+
+<li>
+                                <a href="/createCats"><button  style={{margin:"5px 0px", color:"purple"}} variant="info" >Create New Item</button></a>
+
+                            </li>
 
                         </ul>
                     </Col>
@@ -129,7 +136,7 @@ class Home extends Component {
                         {/* item section */}
                         <Row>
                             {this.state.items.slice(this.state.itemStart,this.state.itemEnd)
-                                .map((i)=><ItemCard item={i} key={i.id} addToUserCart={this.props.addToUserCart}/>)}
+                                .map((i)=><ItemCard item={i} key={i.id} addToUserCart={this.props.addToUserCart} goToEditItem={this.goToEditItem} deleteItem={this.deleteItem}/>)}
                         </Row>
                         <div className="d-flex justify-content-center">
                             {/* <Button variant="danger" className={(this.state.itemStart===0?"disabled":'')} onClick={()=>this.handlePrev()}>{"<< Prev"}</Button>

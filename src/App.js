@@ -12,6 +12,7 @@ import SingleItem from './views/SingleItem'
 // import AdminRoute from './components/AdminRoute';
 import CreateCats from './views/CreateCats'
 import EditCats from './views/EditCats'
+import Cart from './views/Cart';
 
 
 
@@ -31,7 +32,10 @@ export default class App extends Component {
       name:'',
       // isAdmin:false,
       setName:'',
-      username:''
+      username:'',
+      cartTotal:0,
+      itemToEdit:[],
+      cart:[]
       
 
     }
@@ -50,10 +54,7 @@ export default class App extends Component {
       // this.getIsAdmin()
   }
 
-  static getDerivedStateFromProps = (props, state)=>{
-    return {"token":localStorage.getItem('token')}
-  }
-
+  
 
   setName =(username) =>{
     
@@ -72,27 +73,22 @@ export default class App extends Component {
       })
     }
 
-// static getDerivedStateFromProps = (props,state)=>{
-//   return {"token":localStorage.getItem('token')}
-// }
+static getDerivedStateFromProps = (props,state)=>{
+  return {"token":localStorage.getItem('token')}
+}
 
 
-// componentDidMount(){
-//   if(this.state.token){
-//     this.getIsAdmin()
-//   }
-// }
+addToUserCart = (item) =>{
+  let cart = this.state.cart;
+  let cartTotal = this.state.cartTotal;
+  cart.push(item);
+  cartTotal+=parseFloat(item.price);
+  this.setState({cart:cart, cartTotal:cartTotal}, ()=>console.log("cart updated."))
+}
 
-// getIsAdmin=()=>{
-//   const isAdmin=async ()=>{
-//     let res=await getIsAdmin(localStorage.getItem('token'))
-//     if (res === 500 || res ===400){res=false}
-//     console.log("isAdmin",res)
-//     this.setState({isAdmin:res})
-//   }
-//   isAdmin()
 
-// }
+
+
 
   render() {
     return (
@@ -112,6 +108,12 @@ export default class App extends Component {
               <Home token={this.state.token} setToken={this.setToken}/>
             </ProtectedRoute>
             }/>
+
+            <Route path = '/cart' element={
+            <ProtectedRoute token={this.state.token}>
+              <Cart cart={this.state.cart} cartTotal={this.state.cartTotal}/>
+            </ProtectedRoute>
+          }/> 
 
             
 
