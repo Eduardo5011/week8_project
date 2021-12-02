@@ -67,15 +67,21 @@ export default class Login extends Component {
 
     render() {
         const styles={
-            error:{color:'red'}
-            
-            
+            error: {color:'red'},
+            formLabels:{
+                color: "blue"
+            },
+            pageStyles:{
+                backgroundColor: "purple",
+                padding:"120px",
+            },
+        
         }
         
 
 
         return (
-            <div>
+            <div style={styles.pageStyles}>
                 {this.state.redirect ? <Navigate to={{pathname:"/", props:{token:this.props.token}}}/> :''}
             <Formik
                 initialValues={initialValues}

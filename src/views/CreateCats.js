@@ -8,7 +8,7 @@ import axios from 'axios';
 
 const formSchema = Yup.object().shape({
     "title": Yup.string().required("Required"),
-    "price":Yup.string().matches( "Must be a Valid Price").required("Required"),
+    "price":Yup.string().matches(/^\d+(\.\d{1,2})?$/, "Must be a Valid Price").required("Required"),
     "description": Yup.string().required("Required"),
     "category": Yup.string().required("Required")
 })
@@ -52,11 +52,11 @@ class CreateCats extends Component {
             pageStyles:{
                 backgroundColor: "purple",
                 padding:"120px",
-                
             },
-            
-
+        
         }
+
+        
         return (
             <div style={styles.pageStyles}>
 

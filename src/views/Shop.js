@@ -109,7 +109,7 @@ class Home extends Component {
         }
 
         return (
-            <div>
+            <div style={styles.pageStyles}>
                 <Row>
                     <Col md={3}>
                         {/* category section */}
